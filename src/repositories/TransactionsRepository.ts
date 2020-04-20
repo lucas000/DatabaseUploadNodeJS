@@ -1,6 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
 
-import { request } from 'express';
 import Transaction from '../models/Transaction';
 
 interface Balance {
