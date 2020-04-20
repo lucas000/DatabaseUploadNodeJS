@@ -1,12 +1,6 @@
-import {
-  MigrationInterface,
-  QueryRunner,
-  Table,
-  TableForeignKey,
-} from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-// id, title, value, type, category_id, created_at, updated_at
-export default class CreateTransactions1587318374141
+export default class CreateTransactions1587413556301
   implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
@@ -25,16 +19,14 @@ export default class CreateTransactions1587318374141
             type: 'varchar',
           },
           {
-            name: 'value',
-            type: 'decimal',
-          },
-          {
             name: 'type',
             type: 'varchar',
           },
           {
-            name: 'category_id',
-            type: 'uuid',
+            name: 'value',
+            type: 'decimal',
+            precision: 10,
+            scale: 2,
           },
           {
             name: 'created_at',
@@ -49,23 +41,9 @@ export default class CreateTransactions1587318374141
         ],
       }),
     );
-
-    await queryRunner.createForeignKey(
-      'transactions',
-      new TableForeignKey({
-        name: 'CategoryTransaction',
-        columnNames: ['category_id'],
-        referencedColumnNames: ['id'],
-        referencedTableName: 'categories',
-        onDelete: 'SET NULL',
-        onUpdate: 'CASCADE',
-      }),
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropForeignKey('transactions', 'CategoryTransaction');
-
     await queryRunner.dropTable('transactions');
   }
 }
